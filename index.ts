@@ -1,12 +1,25 @@
 // @deno-types="npm:@types/express"
 import express, { NextFunction, Request, Response } from "npm:express@4.18.2";
-import demoData from "./data_blob.json" assert { type: "json" };
+import { PrismaClient } from './generated/client/deno/edge.ts'
+
+import demoData from "./data_blob.json" with { type: "json" };
+
+const prisma = new PrismaClient();
 
 const app = express();
 const port = Number(Deno.env.get("PORT")) || 8000;
 
-const reqLogger = function (req: Request, _res: Response, next: NextFunction) {
-  console.info(`${req.method} request to "${req.url}" by ${req.hostname}`);
+const reqLogger = async function (req: Request, _res: Response, next: NextFunction) {
+  await prisma.log.create({
+    data: {
+      level: 'Info',
+      message: `${req.method} ${req.url}`,
+      meta: {
+        headers: JSON.stringify(req.headers),
+      },
+    },
+  })
+
   next();
 };
 
