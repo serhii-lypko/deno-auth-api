@@ -42,5 +42,3 @@ app.get("/users/:id", (req: any, res: any) => {
 app.listen(port, () => {
   console.log(`Listening on ${port} ...`);
 });
-
-// https://deno-auth-a-50.deno.dev/users
