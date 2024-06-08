@@ -30,4 +30,4 @@ app.listen(port, () => {
   console.log(`Listening on ${port} ...`);
 });
 
-// https://deno-auth-a-50.deno.dev
+// https://deno-auth-a-50.deno.dev/users
